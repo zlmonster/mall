@@ -1,0 +1,18 @@
+package ${package}.${servicename}.api.client.mapping;
+
+/**
+ * ${comments}
+ */
+public interface ${className}Mapping {
+
+    public static final String SELECT_${classNAME}_LIST = "/${pathName}/select${className}List";
+
+    public static final String GET_${classNAME} = "/${pathName}/get${className}";
+
+    public static final String CREATE_${classNAME} = "/${pathName}/create${className}";
+
+    public static final String DELETE_${classNAME} = "/${pathName}/delete${className}";
+
+    public static final String UPDATE_${classNAME} = "/${pathName}/update${className}";
+
+}

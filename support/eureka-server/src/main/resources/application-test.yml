@@ -1,0 +1,10 @@
+#单机注册中心
+eureka:
+#  instance:
+#    hostname: localhost
+  client:
+      fetch-registry: false   #单机需要配置为flase
+      register-with-eureka: false  #单机需要配置为flase
+      serviceUrl:
+#        defaultZone: http://${HOST_IP:localhost}:18001/eureka/
+         #     defaultZone: ${EUREKA_SERVICE_URL}

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+
+	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+	<!-- 3.property可以用来设置变量，可以通过${name}来访问，
+	a. file ，用于指定配置文件的路径，他的作用在于，如果你有多个配置信息的话，可以直接写在配置文件中，然后通过file引入
+	b. variables.properties如下
+		log.path=F:\\demo
+		log.name=mylog.log
+	然后就直接通过${log.path}就可以访问其值 -->
+
+	<springProperty scope="context" source="logback.logfile.path" name="LOG_PATH"/>
+
+	<springProperty scope="context" name="springAppName" source="spring.application.name"/>
+
+	<!-- c.resource作用和file一样，但是，它是可以直接从classpath路径下引入配置文件 -->
+	<!-- <property resource="resource.properties" /> -->
+
+
+
+    <!-- 4.appender格式化日志输出节点，有俩个属性name和class，class用来指定哪种输出策略，常用就是控制台输出策略和文件输出策略。appender有以下子节点： -->
+    <!-- a. filter，日志输出拦截器，可以自定义拦截器也可以用系统一些定义好的拦截器
+    /**
+	* 日志输出拦截器
+	* @author liuxg
+	* @date 2016年4月28日 下午3:36:23
+	*/
+	public class MyFilter extends Filter<ILoggingEvent> {
+	
+	@Override
+	public FilterReply decide(ILoggingEvent event) {
+	
+	    if (event.getMessage().contains("sample")) {
+	        return FilterReply.ACCEPT; //允许输入串
+	    } else {
+	        return FilterReply.DENY; //不允许输出
+	    }
+	}
+	}
+	
+	它可以提供最大的自定义输出，如果需要用到系统定义的拦截器，例如我们用ThresholdFilter来过滤掉ERROR级别以下的日志不输出到文件中
+	<filter   class="ch.qos.logback.classic.filter.ThresholdFilter">
+	<level>ERROR</level>
+	</filter> -->
+	
+	
+	<conversionRule conversionWord="clr"
+		converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+	<conversionRule conversionWord="wex"
+		converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+	<conversionRule conversionWord="wEx"
+		converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+		
+	<!-- 文件输出格式 -->
+	<!--<property name="PATTERN"-->
+		<!--value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%contextName]|-%-5level [%thread] %c [%L] -| %msg%n" />-->
+
+	<!--带颜色区分-->
+	<!--<property name="PATTERN"-->
+			  <!--value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([${springAppName:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]){yellow} %clr(${PID:- }){magenta} -%-5level %clr(-&#45;&#45;){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan}[%L] %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>-->
+
+	<!--不带颜色区分-->
+	<property name="PATTERN"
+			  value="%d{yyyy-MM-dd HH:mm:ss.SSS} [${springAppName:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}] ${PID:- } | -%-5level -- [%15.15t] %c [%L] : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+
+	<!--<property name="CONSOLE_LOG_PATTERN"-->
+		<!--value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(-&#45;&#45;){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />-->
+
+	<!--X-B3-TraceId  X-Span-Export-->
+	<property name="CONSOLE_LOG_PATTERN"
+		value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([${springAppName:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]){yellow} %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+	<property name="FILE_LOG_PATTERN"
+			  value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+
+<!--
+	<property name="REST_API_PATTERN" value='{"timestamp":"%d{yyyy-MM-dd HH:mm:ss SSS}","severity":"%level","serviceName": "${springAppName:-}","trace": "%X{X-B3-TraceId:-}","span": "%X{X-B3-SpanId:-}","exportable": "%X{X-Span-Export:-}","pid": "${PID:-}","thread": "%thread","class": "%logger","rest":%msg}%n'/>
+-->
+	<property name="REST_API_PATTERN" value='{"timestamp":"%d{yyyy-MM-dd HH:mm:ss SSS}","serviceName": "${springAppName:-}","trace": "%X{X-B3-TraceId:-}","span": "%X{X-B3-SpanId:-}","rest":%msg}%n'/>
+
+
+	<!-- 文件路径 -->
+	<property name="LOG_FILE"
+		value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}}" />
+    
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- <filter class="com.example.logback.filter.MyFilter" /> -->
+        <!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+              <level>DEBUG</level>
+        </filter> -->
+        <!-- b. encoder和pattern节点组合用于具体输出的日志格式 -->
+        <!-- %d{HH:mm:ss.SSS}——日志输出时间 
+        %thread——输出日志的进程名字，这在Web应用以及异步任务处理中很有用
+        %-5level——日志级别，并且使用5个字符靠左对齐
+        %logger{36}——日志输出者的名字
+        %msg——日志消息
+        %n——平台的换行符 -->
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+	<!-- e 除了用TimeBasedRollingPolicy策略，我们还可以用SizeAndTimeBasedRollingPolicy，配置子节点的maxFileSize来指定单个日志文件的大小  -->
+    <appender name="SpringAppNameAppender"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- c. file节点用来指明日志文件的输出位置，可以是绝对路径也可以是相对路径 -->
+			<file>${LOG_PATH:-}/${springAppName}.log</file>
+        <append>true</append>
+        
+        <!-- d. rollingPolicy日志回滚策略，在这里我们用了TimeBasedRollingPolicy，基于时间的回滚策略,有以下子节点
+		fileNamePattern，必要节点，可以用来设置指定时间的日志归档，例如我们这里是每天将日志归档成一个zip包
+		maxHistory ,可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件,，例如设置为30的话，则30天之后，旧的日志就会被删除
+		totalSizeCap，可选节点，用来指定日志文件的上限大小，例如设置为3GB的话，那么到了这个值，就会删除旧的日志-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH:-}/${springAppName}.log.%d{yyyy-MM-dd}.zip</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${PATTERN:-}</pattern>
+            <charset>UTF-8</charset>
+			<!-- 缓存满8K写入指定文件(true不用缓存) -->
+			<immediateFlush>true</immediateFlush>
+        </encoder>
+		<prudent>false</prudent>
+    </appender>
+	<appender name="ErrorAppender"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH:-}/error.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH:-}/error.log.%d{yyyy-MM-dd}.zip</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>${PATTERN:-}</pattern>
+			<charset>UTF-8</charset>
+			<!-- 缓存满8K写入指定文件(true不用缓存) -->
+			<immediateFlush>true</immediateFlush>
+		</encoder>
+		<prudent>false</prudent>
+	</appender>
+	<appender name="RestfulApiAppender"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH:-}/access.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH:-}/access.log.%d{yyyy-MM-dd}.zip</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>${REST_API_PATTERN:-}</pattern>
+			<charset>UTF-8</charset>
+			<!-- 缓存满8K写入指定文件(true不用缓存) -->
+			<immediateFlush>true</immediateFlush>
+		</encoder>
+		<prudent>false</prudent>
+	</appender>
+
+	<logger name="com.longwei.mall">
+	    <!-- 根据环境不同，启用不同的日志级别 -->
+		<springProfile name="dev"> <level value="DEBUG" /> </springProfile>
+		<springProfile name="local"> <level value="DEBUG" /> </springProfile>
+		<springProfile name="test"> <level value="DEBUG" /> </springProfile>
+		<springProfile name="preProd"> <level value="INFO" /> </springProfile>
+		<springProfile name="prod"> <level value="INFO" /> </springProfile>
+		<appender-ref ref="SpringAppNameAppender" />
+
+	</logger>
+
+	<logger name="ErrorLogger">
+		<level value="ERROR" />
+		<appender-ref ref="ErrorAppender" />
+		<appender-ref ref="SpringAppNameAppender" />
+
+	</logger>
+	<logger name="RestfulApiLogger">
+		<level value="INFO" />
+		<appender-ref ref="RestfulApiAppender" />
+		<appender-ref ref="SpringAppNameAppender" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="console" />
+	</root>
+
+</included>

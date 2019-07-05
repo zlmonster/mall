@@ -1,0 +1,72 @@
+spring:
+  profiles:
+    active: @environment@
+  application:
+    name: eureka-server
+  security:
+    basic:
+      enabled: true
+    user:
+      name: @mall.username@
+      password: @mall.password@
+#  boot:
+#    admin:
+#      routes:
+#        endpoints: env,metrics,dump,hystrix.stream,turbine.stream,info,configprops,trace,logfile,refresh,heapdump,loggers,auditevents
+#      client:
+#        url: @monitor.url@
+#        username: @mall.username@
+#        password: @monitor.pwd@
+
+
+server:
+  port: 18001
+  #gzip压缩配置
+  compression:
+    enabled: true
+    mime-types: application/json ,application/xml,text/html,text/xml,text/plain
+    # 默认就是2048 byte
+    min-response-size: 2048
+  servlet:
+    context-path: /
+
+
+eureka:
+# 实例配置类 EurekaInstanceConfigBean
+  instance:
+
+    # eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒
+    leaseRenewalIntervalInSeconds: 10
+#    metadataMap:
+#      management.context-path: ${server.context-path}${management.context-path}
+#      user.name: ${spring.security.user.name}
+#      user.password: ${spring.security.user.password}
+#    statusPageUrlPath: ${management.server.servlet.context-path}/info
+#    healthCheckUrlPath: ${management.server.servlet.context-path}/health
+    # spring.cloud.client.ipAddress
+    instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${server.port}
+    preferIpAddress: true
+
+  # 配置类 EurekaClientConfigBean
+  client:
+    #从eureka服务器注册表中获取注册信息的时间间隔（s），默认为30秒
+    registryFetchIntervalSeconds: 5
+    healthcheck.enabled: true
+
+
+  server:
+   # 当eureka服务器启动时获取其他服务器的注册信息失败时，会再次尝试获取，期间需要等待的时间，默认为30 * 1000毫秒
+    registry-sync-retry-wait-ms: 500
+     #缓存ASG信息的到期时间，单位为毫秒，默认为10 * 60 * 1000
+    a-sgcache-expiry-timeout-ms: 10000
+    # 过期实例应该启动并运行的时间间隔，单位为毫秒，默认为60 * 1000
+    eviction-interval-timer-in-ms: 5000
+    registry-eureka-nodes-update-interval-ms: 5000
+    #阈值更新的时间间隔，单位为毫秒，默认为15 * 60 * 1000
+    renewal-threshold-update-interval-ms: 5000
+    enable-self-preservation: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

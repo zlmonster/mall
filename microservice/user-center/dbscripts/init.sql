@@ -1,0 +1,7 @@
+np_customer
+np_customer_info
+
+np_customer_account
+np_customer_auth
+np_customer_extend
+np_customer_interest_tag

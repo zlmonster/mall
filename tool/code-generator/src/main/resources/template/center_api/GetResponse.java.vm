@@ -1,0 +1,20 @@
+package ${package}.${servicename}.api.dto.request;
+
+import ${package}.${servicename}.api.vo.${className}Vo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import java.io.Serializable;
+
+/**
+ * 查询${comments}信息
+ */
+@Data
+@ApiModel(description= "查询${comments}信息")
+public class Get${className}Response implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "${comments}信息")
+    private ${className}Vo ${classname}Vo;
+
+}

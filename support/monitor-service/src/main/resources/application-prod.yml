@@ -1,0 +1,24 @@
+eureka:
+  instance:
+    #从系统环境变量总读取host
+    hostname: ${HOST}
+  client:
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@172.16.56.127:18001/eureka/,http://${spring.security.user.name}:${spring.security.user.password}@172.16.56.128:18001/eureka/
+
+
+
+#spring:
+#  cloud:
+#    stream:
+#      kafka:
+#        binder:
+#        # kafka服务端列表
+#        # 配置hostname
+#          brokers: sitkafka
+#          defaultBrokerPort: 9092
+#          zkNodes: 10.211.95.86
+#          defaultZkPort: 2181
+#    bus:
+#      trace:
+#        enabled: true

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: turbine-service
+
+#logback中配置的日志路径
+logback:
+  logfile:
+      path: /data/logs/${spring.application.name}

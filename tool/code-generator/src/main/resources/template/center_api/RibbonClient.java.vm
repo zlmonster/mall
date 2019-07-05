@@ -1,0 +1,87 @@
+package ${package}.${servicename}.api.client;
+
+import com.alibaba.fastjson.TypeReference;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import ${package}.common.web.annotation.method.GenericResponse;
+import ${package}.common.web.client.AbstractClient;
+import ${package}.${servicename}.api.client.mapping.${className}Mapping;
+import ${package}.${servicename}.api.constants.${servicePre}ServiceInstanceInfo;
+import ${package}.${servicename}.api.dto.request.*;
+import ${package}.${servicename}.api.dto.response.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+/**
+ * ${comments}
+ */
+@Service
+public class ${className}RibbonClient extends AbstractClient {
+
+    public ${className}RibbonClient() {
+    }
+
+    @Autowired
+    public ${className}RibbonClient(RestTemplate restTemplate) {
+        super(restTemplate, ${servicePre}ServiceInstanceInfo.INSTANCE_URL);
+    }
+
+    /*
+     * 获取${comments}列表
+     */
+    @HystrixCommand(groupKey = "BaseThreaPool",fallbackMethod = "select${className}ListError")
+    public Select${className}ListResponse select${className}List(Select${className}ListRequest request) {
+        return postForObject(${className}Mapping.SELECT_${classNAME}_LIST , request, new TypeReference<GenericResponse<Select${className}ListResponse>>(){},null);
+    }
+
+    /*
+     * 查询${comments}信息
+     */
+    @HystrixCommand(groupKey = "BaseThreaPool",fallbackMethod = "get${className}Error")
+    public Get${className}Response get${className}(Get${className}Request request) {
+        return postForObject(${className}Mapping.GET_${classNAME} , request, new TypeReference<GenericResponse<Get${className}Response>>(){},null);
+    }
+
+    /*
+     * 删除${comments}信息
+     */
+    @HystrixCommand(groupKey = "BaseThreaPool",fallbackMethod = "delete${className}Error")
+    public Boolean delete${className}(Delete${className}Request request) {
+        return postForObject(${className}Mapping.DELETE_${classNAME} , request, new TypeReference<GenericResponse<Boolean>>(){},null);
+    }
+
+    /*
+     * 更新${comments}信息
+     */
+    @HystrixCommand(groupKey = "BaseThreaPool",fallbackMethod = "update${className}Error")
+    public Boolean update${className}(Update${className}Request request) {
+        return postForObject(${className}Mapping.UPDATE_${classNAME} , request, new TypeReference<GenericResponse<Boolean>>(){},null);
+    }
+
+    /*
+     * 创建${comments}信息
+     */
+    @HystrixCommand(groupKey = "BaseThreaPool",fallbackMethod = "create${className}Error")
+    public Boolean create${className}(Create${className}Request request) {
+        return postForObject(${className}Mapping.CREATE_${classNAME} , request, new TypeReference<GenericResponse<Boolean>>(){},null);
+    }
+
+
+    /****************  熔断器  ************************************************/
+
+    public Select${className}ListResponse select${className}ListError(Select${className}ListRequest request,Throwable t) {
+        throw commHytircxHandler(t);
+    }
+    public Get${className}Response get${className}Error(Get${className}Request request,Throwable t) {
+        throw commHytircxHandler(t);
+    }
+    public Boolean delete${className}Error(Delete${className}Request request,Throwable t) {
+        throw commHytircxHandler(t);
+    }
+    public Boolean update${className}Error(Update${className}Request request,Throwable t) {
+        throw commHytircxHandler(t);
+    }
+    public Boolean create${className}Error(Create${className}Request request,Throwable t) {
+        throw commHytircxHandler(t);
+    }
+}

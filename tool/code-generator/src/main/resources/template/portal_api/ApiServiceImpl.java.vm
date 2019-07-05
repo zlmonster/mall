@@ -1,0 +1,49 @@
+package ${package}.${apiname}.business.${businessName}.service.impl;
+
+import com.alibaba.fastjson.JSONObject;
+import ${package}.${apiname}.business.${businessName}.service.IApi${className}Service;
+import ${package}.${servicename}.api.client.${className}RibbonClient;
+import ${package}.${servicename}.api.dto.request.*;
+import ${package}.${servicename}.api.dto.response.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+/**
+ * ${comments}
+ */
+@Service
+public class Api${className}ServiceImpl implements IApi${className}Service {
+    private static final Logger LOG = LoggerFactory.getLogger(Api${className}ServiceImpl.class);
+
+    @Autowired
+    private ${className}RibbonClient ${classname}RibbonClient;
+
+    @Override
+    public Select${className}ListResponse select${className}List(Select${className}ListRequest request) {
+        return ${classname}RibbonClient.select${className}List(request);
+    }
+
+    @Override
+    public Get${className}Response get${className}(Get${className}Request request) {
+        return ${classname}RibbonClient.get${className}(request);
+    }
+
+    @Override
+    public Boolean delete${className}(Delete${className}Request request) {
+        return ${classname}RibbonClient.delete${className}(request);
+    }
+
+    @Override
+    public Boolean update${className}(Update${className}Request request) {
+        return ${classname}RibbonClient.update${className}(request);
+    }
+
+    @Override
+    public Boolean create${className}(Create${className}Request request) {
+        return ${classname}RibbonClient.create${className}(request);
+    }
+
+}

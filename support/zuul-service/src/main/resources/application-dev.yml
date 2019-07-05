@@ -1,0 +1,22 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@192.168.85.3:18001/eureka/
+
+# zipkin kafka
+spring:
+  kafka:
+    bootstrap-servers: 192.168.85.2:9092
+  zipkin:
+    kafka:
+      topic: zipkin
+    sender:
+      type: kafka
+    service:
+      name: ${spring.application.name}
+  sleuth:
+    sampler:
+      percentage: 1.0
+    enabled: true
+    messaging:
+      enabled: true

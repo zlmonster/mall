@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.longwei.mall</groupId>
+        <artifactId>mall</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>deploy</artifactId>
+    <packaging>pom</packaging>
+
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <delete file="${basedir}/microservice/libs/eureka-server.jar" />
+                                <delete file="${basedir}/microservice/libs/monitor-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/turbine-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/goods-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/interaction-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/marketing-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/message-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/order-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/pay-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/public-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/search-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/user-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/app-service.jar"/>
+                                <delete file="${basedir}/microservice/libs/oms-service.jar"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,20 @@
+
+eureka:
+  instance:
+    #从系统环境变量总读取host
+    hostname: ${HOST}
+  client:
+    fetch-registry: true   #单机需要配置为flase
+    register-with-eureka: true  #单机需要配置为flase
+    serviceUrl:
+      defaultZone: http://anotherhost:18001/eureka/
+        #anotherhost是高可用时候另一个主机地址，需要加到hosts（/etc/hosts）中。这样两台机器配置一样，通过anotherhost配置不同实现访问不同机器。
+  server:
+    # see discussion about enable-self-preservation:
+    # https://github.com/jhipster/generator-jhipster/issues/3654
+#      enable-self-preservation: false
+    registry-sync-retry-wait-ms: 500
+    a-sgcache-expiry-timeout-ms: 60000
+    eviction-interval-timer-in-ms: 30000
+    registry-eureka-nodes-update-interval-ms: 30000
+    renewal-threshold-update-interval-ms: 15000

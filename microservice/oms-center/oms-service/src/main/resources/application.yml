@@ -1,0 +1,36 @@
+spring:
+  profiles:
+    active: @environment@
+  messages:
+    basename: resultCode,web/resultCode
+  #gzip压缩配置
+  compression:
+    enabled: true
+    mime-types: application/json ,application/xml,text/html,text/xml,text/plain
+    min-response-size: 2048 #默认就是2048 byte
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+  security:
+    user:
+      name: @mall.username@
+      password: @mall.password@
+  application:
+    name: oms-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  port: 9001
+  servlet:
+    context-path: /
+
+#logback中配置的日志路径
+logback:
+  logfile:
+      path: /data/logs/${spring.application.name}

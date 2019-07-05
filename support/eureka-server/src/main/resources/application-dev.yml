@@ -1,0 +1,10 @@
+#单机注册中心
+eureka:
+  client:
+    #单机需要配置为flase
+    fetch-registry: false
+    # 由于该应用为注册中心，如果设置成false，代表不向注册中心注册自己。 #单机需要配置为flase
+    register-with-eureka: false
+    serviceUrl:
+      defaultZone: http://172.16.158.148:18001/eureka/
+

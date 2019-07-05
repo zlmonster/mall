@@ -1,0 +1,22 @@
+package ${package}.${servicename}.service;
+
+import ${package}.${servicename}.api.dto.request.*;
+import ${package}.${servicename}.api.dto.response.*;
+
+
+/**
+ * ${comments}
+ */
+public interface I${className}Service {
+
+    Select${className}ListResponse select${className}List(Select${className}ListRequest request);
+
+    Get${className}Response get${className}(Get${className}Request request);
+
+    Boolean delete${className}(Delete${className}Request request);
+
+    Boolean update${className}(Update${className}Request request);
+
+    Boolean create${className}(Create${className}Request request);
+}
+

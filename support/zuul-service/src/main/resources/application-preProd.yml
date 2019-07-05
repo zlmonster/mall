@@ -1,0 +1,15 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:18001/eureka/
+#Zipkin服务器地址
+spring:
+  zipkin:
+    connectTimeout: 10
+    readTimeout: 10
+    flushInterval: 2
+    baseUrl:  http://localhost:17003/
+    service:
+      name:  ${spring.application.name}
+    compression:
+      enabled: false

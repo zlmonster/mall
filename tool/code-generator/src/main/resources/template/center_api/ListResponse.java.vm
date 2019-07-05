@@ -1,0 +1,26 @@
+package ${package}.${servicename}.api.dto.response;
+
+import ${package}.${servicename}.api.vo.${className}Vo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * 获取${comments}列表
+ */
+@Data
+@ApiModel(description= "获取${comments}列表")
+public class Select${className}ListResponse implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "${comments}信息")
+    private List<${className}Vo> ${classname}VoList;
+
+    @ApiModelProperty(value = "总条数")
+    private int count;
+
+    @ApiModelProperty(value = "总页数")
+    private int pageCount;
+}

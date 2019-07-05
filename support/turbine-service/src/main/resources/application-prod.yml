@@ -1,0 +1,7 @@
+eureka:
+  instance:
+    #从系统环境变量总读取host
+    hostname: ${HOST}
+  client:
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@172.16.56.127:18001/eureka/,http://${spring.security.user.name}:${spring.security.user.password}@172.16.56.128:18001/eureka/
